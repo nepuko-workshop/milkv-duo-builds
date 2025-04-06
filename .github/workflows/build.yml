@@ -15,7 +15,7 @@ jobs:
       - name: Checkout SDK
         uses: actions/checkout@v4
         with:
-          repository: milkv-duo/duo-buildroot-sdk-v2
+          repository: nepuko-workshop/duo-buildroot-sdk-v2
 
       - name: Checkout tools
         uses: actions/checkout@v4
