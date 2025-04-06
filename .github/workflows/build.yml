@@ -36,7 +36,7 @@ jobs:
           pip install jinja2 
 
       - name: Build
-        run: build.sh ${{ github.event.inputs.board }}
+        run: ./build.sh ${{ github.event.inputs.board }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
