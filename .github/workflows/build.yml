@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      board:
+        description: 'The board to build for'
+        required: true
+
+jobs:
+  build:
+    name: Build for ${{ github.event.inputs.board }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout SDK
+        uses: actions/checkout@v4
+        with:
+          repository: milkv-duo/duo-buildroot-sdk-v2
+
+      - name: Checkout tools
+        uses: actions/checkout@v4
+        with:
+          repository: milkv-duo/host-tools
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Setup Environment
+        run: |
+          sudo apt update
+          sudo apt install -y pkg-config build-essential ninja-build automake autoconf libtool wget curl git gcc libssl-dev bc slib squashfs-tools android-sdk-libsparse-utils jq python3-distutils scons parallel tree python3-dev python3-pip device-tree-compiler ssh cpio fakeroot libncurses5 flex bison libncurses5-dev genext2fs rsync unzip dosfstools mtools tcl openssh-client cmake expect
+          pip install jinja2 
+
+      - name: Build
+        run: build.sh ${{ github.event.inputs.board }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: output/*.zip
+          name: ${{ github.event.inputs.board }}-build
