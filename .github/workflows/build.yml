@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     name: Build for ${{ github.event.inputs.board }}
-    runs-on: ubuntu-22.04-64core
+    runs-on: Larger-Runner
     steps:
       - name: Checkout SDK
         uses: actions/checkout@v4
